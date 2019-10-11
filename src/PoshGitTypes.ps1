@@ -227,7 +227,7 @@ class PoshGitPromptSettings {
     [bool]$SetEnvColumns = $true
 
     [PoshGitCellColor]$DefaultColor = [PoshGitCellColor]::new()
-    [PoshGitCellColor]$BranchColor  = [PoshGitCellColor]::new([ConsoleColor]::Cyan)
+    [PoshGitCellColor]$BranchColor  = [PoshGitCellColor]::new([ConsoleColor]::Green)
 
     [PoshGitCellColor]$IndexColor   = [PoshGitCellColor]::new([ConsoleColor]::DarkGreen)
     [PoshGitCellColor]$WorkingColor = [PoshGitCellColor]::new([ConsoleColor]::DarkRed)
@@ -235,9 +235,9 @@ class PoshGitPromptSettings {
     [PoshGitCellColor]$ErrorColor   = [PoshGitCellColor]::new([ConsoleColor]::Red)
 
     [PoshGitTextSpan]$PathStatusSeparator      = ' '
-    [PoshGitTextSpan]$BeforeStatus             = [PoshGitTextSpan]::new('[', [ConsoleColor]::Yellow)
+    [PoshGitTextSpan]$BeforeStatus             = [PoshGitTextSpan]::new('(', [ConsoleColor]::Yellow)
     [PoshGitTextSpan]$DelimStatus              = [PoshGitTextSpan]::new(' |', [ConsoleColor]::Yellow)
-    [PoshGitTextSpan]$AfterStatus              = [PoshGitTextSpan]::new(']', [ConsoleColor]::Yellow)
+    [PoshGitTextSpan]$AfterStatus              = [PoshGitTextSpan]::new(')', [ConsoleColor]::Yellow)
 
     [PoshGitTextSpan]$BeforeIndex              = [PoshGitTextSpan]::new('', [ConsoleColor]::DarkGreen)
     [PoshGitTextSpan]$BeforeStash              = [PoshGitTextSpan]::new(' (', [ConsoleColor]::Red)

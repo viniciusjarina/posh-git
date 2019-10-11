@@ -13,7 +13,7 @@ else {
 
 # Settings for the prompt are in GitPrompt.ps1, so add any desired settings changes here.
 # Example:
-#     $Global:GitPromptSettings.BranchBehindAndAheadDisplay = "Compact"
+$GitPromptSettings.BranchBehindAndAheadDisplay = "Compact"
 
 if ($args[0] -ne 'choco') {
     Write-Warning "posh-git's profile.example.ps1 will be removed in a future version."

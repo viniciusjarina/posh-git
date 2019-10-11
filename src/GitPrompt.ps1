@@ -223,21 +223,6 @@ function Write-GitStatus {
     $sb | Write-GitBranchName $Status -NoLeadingSpace > $null
     $sb | Write-GitBranchStatus $Status > $null
 
-    if ($s.EnableFileStatus -and $Status.HasIndex) {
-        $sb | Write-Prompt $s.BeforeIndex > $null
-        $sb | Write-GitIndexStatus $Status > $null
-
-        if ($Status.HasWorking) {
-            $sb | Write-Prompt $s.DelimStatus > $null
-        }
-    }
-
-    if ($s.EnableFileStatus -and $Status.HasWorking) {
-        $sb | Write-GitWorkingDirStatus $Status > $null
-    }
-
-    $sb | Write-GitWorkingDirStatusSummary $Status > $null
-
     if ($s.EnableStashStatus -and ($Status.StashCount -gt 0)) {
         $sb | Write-GitStashCount $Status > $null
     }
@@ -454,52 +439,7 @@ function Write-GitBranchStatus {
     }
 
     $branchStatusTextSpan = Get-GitBranchStatusColor $Status
-
-    if (!$Status.Upstream) {
-        $branchStatusTextSpan.Text = $s.BranchUntrackedText
-    }
-    elseif ($Status.UpstreamGone -eq $true) {
-        # Upstream branch is gone
-        $branchStatusTextSpan.Text = $s.BranchGoneStatusSymbol.Text
-    }
-    elseif (($Status.BehindBy -eq 0) -and ($Status.AheadBy -eq 0)) {
-        # We are aligned with remote
-        $branchStatusTextSpan.Text = $s.BranchIdenticalStatusSymbol.Text
-    }
-    elseif (($Status.BehindBy -ge 1) -and ($Status.AheadBy -ge 1)) {
-        # We are both behind and ahead of remote
-        if ($s.BranchBehindAndAheadDisplay -eq "Full") {
-            $branchStatusTextSpan.Text = ("{0}{1} {2}{3}" -f $s.BranchBehindStatusSymbol.Text, $Status.BehindBy, $s.BranchAheadStatusSymbol.Text, $status.AheadBy)
-        }
-        elseif ($s.BranchBehindAndAheadDisplay -eq "Compact") {
-            $branchStatusTextSpan.Text = ("{0}{1}{2}" -f $Status.BehindBy, $s.BranchBehindAndAheadStatusSymbol.Text, $Status.AheadBy)
-        }
-        else {
-            $branchStatusTextSpan.Text = $s.BranchBehindAndAheadStatusSymbol.Text
-        }
-    }
-    elseif ($Status.BehindBy -ge 1) {
-        # We are behind remote
-        if (($s.BranchBehindAndAheadDisplay -eq "Full") -Or ($s.BranchBehindAndAheadDisplay -eq "Compact")) {
-            $branchStatusTextSpan.Text = ("{0}{1}" -f $s.BranchBehindStatusSymbol.Text, $Status.BehindBy)
-        }
-        else {
-            $branchStatusTextSpan.Text = $s.BranchBehindStatusSymbol.Text
-        }
-    }
-    elseif ($Status.AheadBy -ge 1) {
-        # We are ahead of remote
-        if (($s.BranchBehindAndAheadDisplay -eq "Full") -or ($s.BranchBehindAndAheadDisplay -eq "Compact")) {
-            $branchStatusTextSpan.Text = ("{0}{1}" -f $s.BranchAheadStatusSymbol.Text, $Status.AheadBy)
-        }
-        else {
-            $branchStatusTextSpan.Text = $s.BranchAheadStatusSymbol.Text
-        }
-    }
-    else {
-        # This condition should not be possible but defaulting the variables to be safe
-        $branchStatusTextSpan.Text = "?"
-    }
+    $branchStatusTextSpan.Text = $s.BranchBehindAndAheadStatusSymbol.Text
 
     $str = ""
     if ($branchStatusTextSpan.Text) {
